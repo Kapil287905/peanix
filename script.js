@@ -243,134 +243,50 @@ document.addEventListener("DOMContentLoaded", function () {
         // FORM SUBMIT
         // =======================================
 
-        form.addEventListener("submit", function (e) {
+        document.getElementById("orderForm").addEventListener("submit", function (e) {
 
             e.preventDefault();
 
-            const name = document.getElementById("name").value.trim();
+            emailjs.send(
+                "service_jia3auq",
+                "template_xdpf5yb",
+                {
+                    customer_name: document.getElementById("name").value,
+                    customer_email: document.getElementById("email").value,
+                    phone: document.getElementById("mobile").value,
 
-            const email = document.getElementById("email").value.trim();
+                    address1: document.getElementById("address1").value,
+                    address2: document.getElementById("address2").value,
+                    city: document.getElementById("city").value,
+                    zipcode: document.getElementById("zipcode").value,
 
-            const address = document.getElementById("address").value.trim();
-
-            if (name === "") {
-
-                Swal.fire(
-
-                    "Error",
-
-                    "Please enter your name.",
-
-                    "error"
-
-                );
-
-                return;
-
-            }
-
-            if (!/^[6-9]\d{9}$/.test(mobile.value)) {
-
-                Swal.fire(
-
-                    "Error",
-
-                    "Please enter a valid mobile number.",
-
-                    "error"
-
-                );
-
-                return;
-
-            }
-
-            if (
-
-                email !== "" &&
-
-                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-
-            ) {
-
-                Swal.fire(
-
-                    "Error",
-
-                    "Please enter a valid email.",
-
-                    "error"
-
-                );
-
-                return;
-
-            }
-
-            const button = form.querySelector("button");
-
-            button.disabled = true;
-
-            button.innerHTML = "Processing...";
-
-            const order = {
-
-                orderId: "PNX" + Date.now(),
-
-                name,
-
-                mobile: mobile.value,
-
-                email,
-
-                product: product.value,
-
-                quantity: quantity.value,
-
-                total: totalPrice.innerText,
-
-                address
-
-            };
-
-            console.log(order);
-
-            localStorage.setItem(
-
-                "PeanixOrder",
-
-                JSON.stringify(order)
-
-            );
-
-            setTimeout(() => {
+                    product: document.getElementById("product").value,
+                    quantity: document.getElementById("quantity").value
+                },
+                "5WqPB02ANDNAbQRFJ"
+            )
+            .then(function () {
 
                 Swal.fire({
-
                     icon: "success",
-
-                    title: "Order Placed!",
-
-                    html: `
-                        <b>Order ID</b><br>
-                        ${order.orderId}
-                    `,
-
-                    confirmButtonColor: "#ff9800"
-
+                    title: "Order Placed",
+                    text: "Thank you for your order!"
                 });
 
-                form.reset();
+                document.getElementById("orderForm").reset();
 
-                quantity.value = 1;
+                document.getElementById("orderModal").style.display = "none";             
 
-                updateTotal();
+            })
+            .catch(function (error) {
+                console.log("EmailJS Error:", error);
 
-                button.disabled = false;
-
-                button.innerHTML = "Place Order";
-
-            }, 800);
+                Swal.fire({
+                    icon: "error",
+                    title: "Email Failed",
+                    text: JSON.stringify(error)
+                });
+            });
 
         });
 
