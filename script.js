@@ -30,7 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // STICKY NAVBAR
     // =======================================
 
-    const nav = document.querySelector("nav");
+    const navbar = document.querySelector("nav");
+    const menu = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-links");
+
+    menu.addEventListener("click", () => {
+        nav.classList.toggle("active");
+    });
 
     // =======================================
     // BACK TO TOP
