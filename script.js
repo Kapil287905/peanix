@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // STICKY NAVBAR
     // =======================================
 
-    const navbar = document.querySelector("nav");
+    const nav = document.querySelector("nav");
     const menu = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-links");
+    const navbar = document.querySelector(".nav-links");
 
     menu.addEventListener("click", () => {
         nav.classList.toggle("active");
