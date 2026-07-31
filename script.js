@@ -267,7 +267,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     zipcode: document.getElementById("zipcode").value,
 
                     product: document.getElementById("product").value,
-                    quantity: document.getElementById("quantity").value
+                    quantity: document.getElementById("quantity").value,
+                    message: document.getElementById("remark").value
                 },
                 "5WqPB02ANDNAbQRFJ"
             )
