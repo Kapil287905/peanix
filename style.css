@@ -1167,3 +1167,21 @@ box-shadow:0 5px 20px rgba(0,0,0,.15);
         display:flex;
     }
 }
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+    justify-content: left;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    color: #ffffff;
+    font-size: 32px;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: #ff5722;
+    transform: scale(1.2);
+}
