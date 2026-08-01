@@ -188,10 +188,8 @@
 
                 </div>
 
-                <p class="shipping">
-
-                    Courier Charges Extra
-
+                 <p class="shipping">
+                    🚚 Courier Charges Extra
                 </p>
 
                 <ul>
@@ -248,10 +246,8 @@
 
                 </div>
 
-                <p class="shipping">
-
-                    Courier Charges Extra
-
+                 <p class="shipping">
+                    🚚 Courier Charges Extra
                 </p>
 
                 <ul>
@@ -275,11 +271,56 @@
 
                 </a>
 
+            </div>            
+
+        </div>
+        
+        <div class="combo-box">
+
+            <div>
+
+                <h3>
+                    Try Both Flavours Combo 🎁
+                </h3>
+
+
+                <p>
+                    Get White Chocolate + Dark Chocolate
+                    together at a special price.
+                </p>
+
             </div>
+
+
+
+            <div class="combo-price">
+
+                <span>
+                    ₹260
+                </span>
+
+                <small>
+                    ₹335
+                </small>
+
+
+            </div>
+
+
+
+            <a href="javascript:void(0)"
+            class="buy-btnb"
+            data-product="White Chocolate + Dark Chocolate"
+            data-price="260">
+
+                Order Combo
+
+            </a>
+
 
         </div>
 
-    </div>
+    </div>  
 
 </section>
 
@@ -568,47 +609,102 @@ id="topBtn" class="whatsapp">
                 </div>
 
             </div>
-
+            
             <!-- Product -->
 
             <div class="form-group">
 
-                <label>Product</label>
+                <label>Select Product(s)</label>
 
-                <select id="product" required>
+                <div class="product-list">
 
-                    <option value="White Chocolate">
-                        White Chocolate
-                    </option>
 
-                    <option value="Dark Chocolate">
-                        Dark Chocolate
-                    </option>
+                    <div class="product-item" id="white">
 
-                </select>
+                        <label>
+                            <input
+                            type="checkbox"
+                            class="product"
+                            value="White Chocolate"
+                            data-price="135" data-qty="whiteQty">
 
-            </div>
+                            White Chocolate ₹135
+                        </label>
 
-            <!-- Quantity -->
+                        <div class="qty-box">
 
-            <div class="form-group">
+                            <button type="button"
+                            class="minus"
+                            data-target="whiteQty">
+                            −
+                            </button>
 
-                <label>Quantity</label>
 
-                <div class="qty-box">
+                            <input 
+                            type="number"
+                            class="product-qty"
+                            id="whiteQty"
+                            value="0"
+                            min="0"
+                            disabled>
 
-                    <button type="button" id="minus">−</button>
 
-                    <input type="number"
-                        id="quantity"
-                        value="1"
-                        min="1">
+                            <button type="button"
+                            class="plus"
+                            data-target="whiteQty">
+                            +
+                            </button>
 
-                    <button type="button" id="plus">+</button>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="product-item" id="dark">
+
+                        <label>
+                            <input
+                            type="checkbox"
+                            class="product"
+                            value="Dark Chocolate"
+                            data-price="125" data-qty="darkQty">
+
+                            Dark Chocolate ₹125
+                        </label>
+
+                        <div class="qty-box">
+
+                            <button type="button"
+                            class="minus"
+                            data-target="darkQty">
+                            −
+                            </button>
+
+
+                            <input 
+                            type="number"
+                            class="product-qty"
+                            id="darkQty"
+                            value="0"
+                            min="0"
+                            disabled>
+
+
+                            <button type="button"
+                            class="plus"
+                            data-target="darkQty">
+                            +
+                            </button>
+
+                        </div>                        
+
+                    </div>
+
 
                 </div>
 
-            </div>
+            </div>           
 
             <!-- Total -->
 

@@ -90,242 +90,762 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =======================================
-    // PRODUCT PRICE
+    // PRODUCT ORDER SYSTEM
     // =======================================
 
     const modal = document.getElementById("orderModal");
+    const form = document.getElementById("orderForm");
     const closeBtn = document.querySelector(".close");
 
-    // Close using X button
-    if (closeBtn) {
+    // =======================================
+    // ORDER BOTH BUTTON
+    // =======================================
 
-        closeBtn.addEventListener("click", function () {
+    document.querySelectorAll(".buy-btnb").forEach(btn => {
 
-            modal.style.display = "none";
-
-        });
-
-    }
-
-    // Close when clicking outside the popup
-    window.addEventListener("click", function (e) {
-
-        if (e.target === modal) {
-
-            modal.style.display = "none";
-
-        }
-
-    });
-
-    let selectedPrice = 0;
-
-    const product = document.getElementById("product");
-    const quantity = document.getElementById("quantity");
-    const form = document.getElementById("orderForm");
-
-    document.querySelectorAll(".buy-btn").forEach(btn => {
-
-        btn.addEventListener("click", function (e) {
+        btn.addEventListener("click", function(e){
 
             e.preventDefault();
 
-            // Set product
-            product.value = this.dataset.product;
 
-            // Set price from button
-            selectedPrice = parseInt(this.dataset.price);
+            // Reset all products
 
-            // Reset quantity
-            quantity.value = 1;
+            document.querySelectorAll(".product").forEach(product=>{
 
-            // Update total
-            updateTotal();
+                product.checked = false;
+                product.disabled = false;
 
-            // Open modal
-            document.getElementById("orderModal").style.display = "flex";
+            });
 
-        });
 
-    });
+            document.querySelectorAll(".product-qty").forEach(qty=>{
 
-    if (form && product && quantity) {
+                qty.disabled = true;
+                qty.value = 1;
 
-        // Total Price Box
+            });
 
-        let totalPrice = document.getElementById("totalPrice");
 
-        if (!totalPrice) {
 
-            const totalBox = document.createElement("div");
+            // Select White Chocolate
 
-            totalBox.className = "total-box";
-
-            totalBox.innerHTML = `
-                <h3>Total : ₹<span id="totalPrice">0</span></h3>
-            `;
-
-            form.insertBefore(
-                totalBox,
-                form.querySelector("button")
+            let white = document.querySelector(
+                '.product[value="White Chocolate"]'
             );
 
-            totalPrice = document.getElementById("totalPrice");
 
-        }
+            if(white){
 
-        function updateTotal() {
+                white.checked = true;
 
-            const qty = parseInt(quantity.value) || 1;
+                let qty = document.getElementById("whiteQty");
 
-            totalPrice.innerText = selectedPrice * qty;
-
-        }
-
-        product.addEventListener("change", updateTotal);
-
-        quantity.addEventListener("input", updateTotal);
-
-        updateTotal();
-
-        // =======================================
-        // QUANTITY BUTTONS
-        // =======================================
-
-        const plus = document.getElementById("plus");
-        const minus = document.getElementById("minus");
-
-        if (plus) {
-
-            plus.addEventListener("click", () => {
-
-                quantity.value = parseInt(quantity.value || 1) + 1;
-
-                updateTotal();
-
-            });
-
-        }
-
-        if (minus) {
-
-            minus.addEventListener("click", () => {
-
-                let qty = parseInt(quantity.value || 1);
-
-                if (qty > 1) {
-
-                    quantity.value = qty - 1;
-
-                }
-
-                updateTotal();
-
-            });
-
-        }
-
-        // =======================================
-        // MOBILE VALIDATION
-        // =======================================
-
-        const mobile = document.getElementById("mobile");
-
-        if (mobile) {
-
-            mobile.addEventListener("input", function () {
-
-                this.value = this.value
-
-                    .replace(/\D/g, "")
-
-                    .slice(0, 10);
-
-            });
-
-        }
-
-        // =======================================
-        // FORM SUBMIT
-        // =======================================
-
-        document.getElementById("orderForm").addEventListener("submit", function (e) {
-
-            e.preventDefault();
-
-            emailjs.send(
-                "service_jia3auq",
-                "template_xdpf5yb",
-                {
-                    customer_name: document.getElementById("name").value,
-                    customer_email: document.getElementById("email").value,
-                    phone: document.getElementById("mobile").value,
-
-                    address1: document.getElementById("address1").value,
-                    address2: document.getElementById("address2").value,
-                    city: document.getElementById("city").value,
-                    zipcode: document.getElementById("zipcode").value,
-
-                    product: document.getElementById("product").value,
-                    quantity: document.getElementById("quantity").value,
-                    message: document.getElementById("remark").value
-                },
-                "5WqPB02ANDNAbQRFJ"
-            )
-            .then(function () {
-
-                Swal.fire({
-                    icon: "success",
-                    title: "Order Placed",
-                    text: "Thank you for your order!"
-                });
-
-                document.getElementById("orderForm").reset();
-
-                document.getElementById("orderModal").style.display = "none";             
-
-            })
-            .catch(function (error) {
-                console.log("EmailJS Error:", error);
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Email Failed",
-                    text: JSON.stringify(error)
-                });
-            });
-
-        });
-
-    }
-    
-
-    // =======================================
-    // FAQ
-    // =======================================
-
-    document.querySelectorAll(".faq-question").forEach(btn => {
-
-        btn.addEventListener("click", () => {
-
-            const answer = btn.nextElementSibling;
-
-            const open = answer.style.maxHeight;
-
-            document.querySelectorAll(".faq-answer").forEach(item => {
-
-                item.style.maxHeight = null;
-
-            });
-
-            if (!open) {
-
-                answer.style.maxHeight =
-                    answer.scrollHeight + "px";
+                qty.disabled = false;
+                qty.value = 1;
 
             }
 
+
+
+            // Select Dark Chocolate
+
+            let dark = document.querySelector(
+                '.product[value="Dark Chocolate"]'
+            );
+
+
+            if(dark){
+
+                dark.checked = true;
+
+                let qty = document.getElementById("darkQty");
+
+                qty.disabled = false;
+                qty.value = 1;
+
+            }
+
+
+
+            // Calculate total
+
+            calculateTotal();
+
+
+
+            // Open popup
+
+            document.getElementById("orderModal")
+            .style.display = "flex";
+
+
         });
+
+
+    });
+
+
+    // ================================
+    // OPEN ORDER POPUP
+    // ================================
+
+     document.querySelectorAll(".buy-btnb").forEach(btn => {
+
+        btn.addEventListener("click", function(e){
+
+            e.preventDefault();
+
+
+            // Reset all products first
+
+            document.querySelectorAll(".product").forEach(item => {
+
+                item.checked = false;
+                item.disabled = false;
+
+            });
+
+
+            document.querySelectorAll(".product-qty").forEach(qty => {
+
+                qty.value = 0;
+                qty.disabled = true;
+
+            });
+
+
+            // Disable all plus minus buttons
+
+            document.querySelectorAll(".plus, .minus").forEach(button => {
+
+                button.disabled = true;
+
+            });
+
+            document.getElementById("white").style.display = "block";
+            document.getElementById("dark").style.display = "block";
+
+
+
+            // Select White Chocolate
+
+            let whiteProduct = document.querySelector(
+                '.product[value="White Chocolate"]'
+            );
+
+
+            if(whiteProduct){
+
+                whiteProduct.checked = true;
+
+
+                let whiteQty = document.getElementById("whiteQty");
+
+                whiteQty.value = 1;
+                whiteQty.disabled = false;
+
+
+
+                document.querySelectorAll(
+                    '.plus[data-target="whiteQty"], .minus[data-target="whiteQty"]'
+                ).forEach(button => {
+
+                    button.disabled = false;
+
+                });
+
+            }
+
+
+
+            // Select Dark Chocolate
+
+            let darkProduct = document.querySelector(
+                '.product[value="Dark Chocolate"]'
+            );
+
+
+            if(darkProduct){
+
+                darkProduct.checked = true;
+
+
+                let darkQty = document.getElementById("darkQty");
+
+                darkQty.value = 1;
+                darkQty.disabled = false;
+
+
+
+                document.querySelectorAll(
+                    '.plus[data-target="darkQty"], .minus[data-target="darkQty"]'
+                ).forEach(button => {
+
+                    button.disabled = false;
+
+                });
+
+            }     
+
+            calculateTotal();
+
+            modal.style.display = "flex";
+
+        });
+
+    });
+
+    document.querySelectorAll(".buy-btn").forEach(btn => {
+
+        btn.addEventListener("click", function(e){
+
+            e.preventDefault();
+
+
+            // Reset all products
+
+            document.querySelectorAll(".product").forEach(item => {
+
+                item.checked = false;
+                item.disabled = true;
+
+            });
+
+
+            document.querySelectorAll(".product-qty").forEach(qty => {
+
+                qty.value = 0;
+                qty.disabled = true;
+
+            });
+
+
+            // Disable all plus/minus buttons
+
+            document.querySelectorAll(".plus, .minus").forEach(button => {
+
+                button.disabled = true;
+
+            });
+
+
+            document.querySelectorAll("#white, #dark").forEach(div => {
+
+                div.style.display = "none";
+
+            });
+
+
+            // Select clicked product
+
+            let selectedProduct = document.querySelector(
+                `.product[value="${this.dataset.product}"]`
+            );
+
+
+
+            if(selectedProduct){
+
+
+                selectedProduct.checked = true;
+
+                selectedProduct.disabled = false;
+
+
+
+                let qtyBox = document.getElementById(
+                    selectedProduct.dataset.qty
+                );
+
+
+                // Set selected quantity = 1
+
+                qtyBox.value = 1;
+
+                qtyBox.disabled = false;
+
+
+
+                // Enable selected product plus/minus
+
+                document.querySelectorAll(
+                    `.plus[data-target="${selectedProduct.dataset.qty}"],
+                    .minus[data-target="${selectedProduct.dataset.qty}"]`
+                ).forEach(button => {
+
+                    button.disabled = false;
+
+                });
+
+
+            }
+
+
+            if (selectedProduct.value === "White Chocolate") {
+
+                document.getElementById("white").style.display = "block";
+
+            }
+
+
+            if (selectedProduct.value === "Dark Chocolate") {
+
+                document.getElementById("dark").style.display = "block";
+
+            }
+
+
+
+            calculateTotal();
+
+
+            modal.style.display = "flex";
+
+
+        });
+
+    });
+
+
+
+    // ================================
+    // CLOSE POPUP
+    // ================================
+
+
+    if(closeBtn){
+
+        closeBtn.addEventListener("click",function(){
+
+            form.reset();
+
+            document.querySelectorAll(".product-qty").forEach(qty=>{
+
+                qty.disabled=true;
+
+            });
+
+            document.getElementById("white").style.display = "none";
+            document.getElementById("dark").style.display = "none";
+
+
+            modal.style.display="none";
+
+
+        });
+
+    }
+
+
+
+    window.addEventListener("click",function(e){
+
+        if(e.target === modal){
+
+            form.reset();
+
+            document.querySelectorAll(".product-qty").forEach(qty=>{
+
+                qty.disabled=true;
+
+            });
+
+            document.getElementById("white").style.display = "none";
+            document.getElementById("dark").style.display = "none";
+
+            modal.style.display="none";
+
+        }
+
+    });
+
+
+
+    // ================================
+    // PRODUCT CHECKBOX
+    // ================================
+
+
+    document.querySelectorAll(".product").forEach(product => {
+
+        product.addEventListener("change", function () {
+
+
+            let selectedProducts = document.querySelectorAll(".product:checked");
+
+
+            document.querySelectorAll(".product").forEach(item => {
+
+
+                let qtyInput = document.getElementById(item.dataset.qty);
+
+
+                let buttons = document.querySelectorAll(
+                    `.plus[data-target="${item.dataset.qty}"],
+                    .minus[data-target="${item.dataset.qty}"]`
+                );
+
+
+                if(item.checked){
+
+
+                    // Selected product
+                    qtyInput.disabled = false;
+
+                    qtyInput.value = 1;
+
+
+                    buttons.forEach(btn => {
+
+                        btn.disabled = false;
+
+                    });
+
+
+                }
+                else {
+
+
+                    // Unselected product
+                    qtyInput.value = 0;
+
+                    qtyInput.disabled = true;
+
+
+                    buttons.forEach(btn => {
+
+                        btn.disabled = true;
+
+                    });
+
+
+                    // Disable checkbox if another product selected
+                    if(selectedProducts.length > 0){
+
+                        item.disabled = true;
+
+                    }
+                    else{
+
+                        item.disabled = false;
+
+                    }
+
+
+                }
+
+
+            });
+
+
+            calculateTotal();
+
+
+        });
+
+    });
+
+
+
+
+    // ================================
+    // PLUS BUTTON
+    // ================================
+
+
+    document.querySelectorAll(".plus").forEach(btn=>{
+
+
+        btn.addEventListener("click",function(){
+
+            let input=document.getElementById(
+                this.dataset.target
+            );
+
+
+            input.value =
+            parseInt(input.value || 1) + 1;
+
+
+            calculateTotal();
+
+
+        });
+
+
+    });
+
+
+
+
+    // ================================
+    // MINUS BUTTON
+    // ================================
+
+
+    document.querySelectorAll(".minus").forEach(btn=>{
+
+
+        btn.addEventListener("click",function(){
+
+
+            let input=document.getElementById(
+                this.dataset.target
+            );
+
+
+            let value=parseInt(input.value || 1);
+
+
+            if(value > 1){
+
+                input.value=value-1;
+
+            }
+
+
+            calculateTotal();
+
+
+        });
+
+
+    });
+
+
+
+
+    // ================================
+    // QUANTITY CHANGE
+    // ================================
+
+
+    document.querySelectorAll(".product-qty").forEach(input=>{
+
+
+        input.addEventListener("input",calculateTotal);
+
+
+    });
+
+
+
+
+    // ================================
+    // TOTAL CALCULATION
+    // ================================
+
+
+    function calculateTotal(){
+
+
+        let total=0;
+
+
+        document.querySelectorAll(".product:checked")
+        .forEach(product=>{
+
+
+            let qty=document.getElementById(
+                product.dataset.qty
+            ).value;
+
+
+            total +=
+            Number(product.dataset.price) *
+            Number(qty);
+
+
+
+        });
+
+
+
+        document.getElementById("totalPrice")
+        .innerText = total;
+
+
+    }
+
+
+
+
+
+
+
+    // ================================
+    // FORM SUBMIT EMAIL
+    // ================================
+
+
+    form.addEventListener("submit",function(e){
+
+
+        e.preventDefault();
+
+
+
+        let orderItems=[];
+
+
+
+        document.querySelectorAll(".product:checked")
+        .forEach(product=>{
+
+
+            let qty=document.getElementById(
+                product.dataset.qty
+            ).value;
+
+
+
+            orderItems.push(
+                `${product.value} - Qty ${qty}`
+            );
+
+
+        });
+
+
+
+        if(orderItems.length===0){
+
+
+            Swal.fire({
+
+                icon:"warning",
+
+                title:"Select Product",
+
+                text:"Please select at least one product"
+
+            });
+
+
+            return;
+
+        }
+
+
+
+
+
+        emailjs.send(
+
+            "service_jia3auq",
+
+            "template_xdpf5yb",
+
+            {
+
+
+                customer_name:
+                document.getElementById("name").value,
+
+
+                customer_email:
+                document.getElementById("email").value,
+
+
+                phone:
+                document.getElementById("mobile").value,
+
+
+
+                address1:
+                document.getElementById("address1").value,
+
+
+                address2:
+                document.getElementById("address2").value,
+
+
+                city:
+                document.getElementById("city").value,
+
+
+                zipcode:
+                document.getElementById("zipcode").value,
+
+
+
+                product:
+                orderItems.join("\n"),
+
+
+
+                quantity:
+                "Multiple",
+
+
+
+                message:
+                document.getElementById("remark").value
+
+
+            },
+
+
+            "5WqPB02ANDNAbQRFJ"
+
+
+        )
+
+        .then(function(){
+
+
+            Swal.fire({
+
+                icon:"success",
+
+                title:"Order Placed",
+
+                text:"Thank you for your order!"
+
+            });
+
+
+
+            form.reset();
+
+
+            document.querySelectorAll(".product-qty")
+            .forEach(qty=>{
+
+                qty.disabled=true;
+
+            });
+
+
+
+            modal.style.display="none";
+
+
+        })
+
+        .catch(function(error){
+
+
+            console.log(
+                "EmailJS Error:",
+                error
+            );
+
+
+            Swal.fire({
+
+                icon:"error",
+
+                title:"Email Failed",
+
+                text:"Please try again"
+
+            });
+
+
+        });
+
+
 
     });
 
